@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_22_071653) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_22_123742) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -39,17 +39,33 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_22_071653) do
 
   create_table "customers", force: :cascade do |t|
     t.string "name"
+    t.float "milk_total"
+    t.float "product_total"
+    t.float "total_amount"
+    t.float "paid_amount"
+    t.float "balance"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "products", force: :cascade do |t|
+  create_table "items", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "milks", force: :cascade do |t|
+    t.integer "items_id"
     t.string "name"
     t.integer "quantity"
-    t.float "unit_price"
-    t.float "total_price"
+    t.integer "unit_price"
+    t.integer "total_price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "customer_id", null: false
+    t.index ["customer_id"], name: "index_milks_on_customer_id"
+    t.index ["items_id"], name: "index_milks_on_items_id"
   end
 
+  add_foreign_key "milks", "customers"
 end

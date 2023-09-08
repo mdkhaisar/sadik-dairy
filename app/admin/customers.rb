@@ -1,10 +1,4 @@
 ActiveAdmin.register Customer do
-
-  # See permitted parameters documentation:
-  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  #
-  # Uncomment all parameters which should be permitted for assignment
-  #
   permit_params :name, :milk_total, :product_total, :total_amount, :paid_amount, :balance, milks_attributes: [:id, :item_id, :quantity, :unit_price, :total_price]
   #
   # or
@@ -20,14 +14,14 @@ ActiveAdmin.register Customer do
     f.inputs do
       f.input :name
     end
-    f.inputs 'Items' do
-      f.has_many :milks, heading: 'Milks', allow_destroy: true, new_record: 'Add Milk' do |qi|
-        qi.input :items, as: :select, collection: Item.all.map { |p| [p.name, p.id] }, include_blank: 'Select Item'
-        qi.input :quantity
-        qi.input :unit_price
-      # qi.input :_destroy, as: :boolean, required: false, label: 'Remove', wrapper_html: { class: 'remove-item' }
-      end
-    end
+    #f.inputs 'Items' do
+    #  f.has_many :milks, heading: 'Milks', allow_destroy: true, new_record: 'Add Milk' do |qi|
+        # qi.input :items, as: :select, collection: Item.all.map { |p| [p.name, p.id] }, include_blank: 'Select Item'
+    #    qi.input :quantity
+    #    qi.input :unit_price
+    #    qi.input :milk_name  #, as: :select, collection: Milk.milk_name.keys      # qi.input :_destroy, as: :boolean, required: false, label: 'Remove', wrapper_html: { class: 'remove-item' }
+    #  end
+    # end
     f.actions
   end
    index download_links: [:csv] do
@@ -47,12 +41,15 @@ ActiveAdmin.register Customer do
       row :name
       row "Items" do
         panel "Milks" do
-          table_for customer.milks do
-            column :name
-            column :quantity
-            column :unit_price
-            column :total_price
-          end
+          #if customer.records.any?
+            table_for customer.records.first.milk do
+              column :milk_name
+              column :quantity
+              column :unit_price
+            end
+          #else
+            #  span "No records found"
+          # end
         end
       end
       row :milk_total

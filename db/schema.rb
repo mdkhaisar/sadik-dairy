@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_22_123742) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_14_083647) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -48,24 +48,25 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_22_123742) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "items", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "milks", force: :cascade do |t|
-    t.integer "items_id"
-    t.string "name"
+    t.integer "milk_name"
     t.integer "quantity"
     t.integer "unit_price"
     t.integer "total_price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "customer_id", null: false
-    t.index ["customer_id"], name: "index_milks_on_customer_id"
-    t.index ["items_id"], name: "index_milks_on_items_id"
+    t.integer "record_id", null: false
+    t.index ["record_id"], name: "index_milks_on_record_id"
   end
 
-  add_foreign_key "milks", "customers"
+  create_table "records", force: :cascade do |t|
+    t.integer "customer_id", null: false
+    t.integer "milk_total"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_records_on_customer_id"
+  end
+
+  add_foreign_key "milks", "records"
+  add_foreign_key "records", "customers"
 end

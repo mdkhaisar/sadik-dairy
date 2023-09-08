@@ -5,9 +5,9 @@ ActiveAdmin.register Milk do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :items_id, :quantity, :unit_price, :total_price, :customers_id
+  permit_params  :milk_name, :quantity, :unit_price, :total_price, :customers_id
   
-  filter :items_id, collection: Item.all
+  filter :milk_name
   # or
   #
   # permit_params do
